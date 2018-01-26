@@ -31,4 +31,4 @@ Paste the http link into your favorite browser.
 ### Prerequisites
 
 - Python 3 with conda installed.
-- The rest of the requirements are found in requirements.txt
+- If not building from conda, dependencies can be found in web_serv.yaml
