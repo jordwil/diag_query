@@ -27,15 +27,19 @@ Paste the http link into your favorite browser.
 
 ### Prefix Searching
 User Input
+
 `http://127.0.0.1:5000/a`
 
 Output
+
 `Results: ['asthma', 'arthritis', 'allergies', 'astigmatism', 'anxiety disorders', 'autoimmune diseases']`
 
 ### Recording Matches
 User Input
+
 `http://127.0.0.1:5000/a/arthritis`
 Output
+
 `Your selection arthritis : a has been recorded. arthritis selected 1 times. The last ten prefix entries are: ['a']`
 
 ### Prerequisites
