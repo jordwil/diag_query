@@ -26,7 +26,7 @@ def update_hash(diag, pre, my_dict):
     '''Ensures the connection between diagnosis and suffix searched
     Holds in a key : list of value format. Creates val list if it's not yet created'''
     try:
-        my_dict[diag].append(a)
+        my_dict[diag].append(pre)
     except KeyError:
         my_dict[diag] = [pre]
     return my_dict
@@ -35,10 +35,20 @@ def pickle_obj(data, pickle_path):
     ''' Converts data structure into a pickle for storage, overwiting old data '''
     pickle.dump(data, open(pickle_path, 'wb'))
 
+def get_last_ten(my_dict, my_diag):
+    ''' Returns the last 10 in a stack format '''
+    return my_dict[my_diag][:-11:-1]
+
+
+
 trie_filepath = os.path.abspath(os.path.join('app','data', 'my_trie.p'))
 diag_pre_filepath = os.path.abspath(os.path.join('app', 'data', 'my_diag_pref.p'))
 data_file = os.path.abspath(os.path.join('app', 'data', 'short-diagnoses.txt'))
 
+
+@app.route('/')
+def root_display():
+    return 'Hello! Please type in your query into the address bar. http://127.0.0.1:5000/search_term'
 
 @app.route('/<prefix>', defaults={'diag': None}) # Endpoint 1
 @app.route('/<prefix>/<diag>') # Endpoint 2
@@ -62,4 +72,6 @@ def prefix_display(prefix, diag):
     if diag in tuple(results): # Endpoint 2
         update_hash(diag, prefix, my_hash)
         pickle_obj(my_hash, diag_pre_filepath) # saves hash
-        return 'Your selection %s : %s has been recorded' % (diag, prefix)
+        return ('''Your selection %s : %s has been recorded.
+         %s selected %s times.
+         The last ten prefix entries are: %s''' % (diag, prefix, diag, len(my_hash[diag]), my_hash[diag][:-11:-1]))
