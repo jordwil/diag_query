@@ -39,12 +39,7 @@ def get_last_ten(my_dict, my_diag):
     ''' Returns the last 10 in a stack format '''
     return my_dict[my_diag][:-11:-1]
 
-
-
-trie_filepath = os.path.abspath(os.path.join('app','data', 'my_trie.p'))
-diag_pre_filepath = os.path.abspath(os.path.join('app', 'data', 'my_diag_pref.p'))
-data_file = os.path.abspath(os.path.join('app', 'data', 'short-diagnoses.txt'))
-
+data = json.load(open('app/config.json')) # Load preconfigured paths
 
 @app.route('/')
 def root_display():
@@ -53,25 +48,26 @@ def root_display():
 @app.route('/<prefix>', defaults={'diag': None}) # Endpoint 1
 @app.route('/<prefix>/<diag>') # Endpoint 2
 def prefix_display(prefix, diag):
-    my_trie = get_pickle(trie_filepath)
+    my_trie = get_pickle(data['trie']) # None if empty
 
     if not my_trie:
-        my_trie = gen_trie(data_file)
-        pickle_obj(my_trie, trie_filepath) # saves tree
+        my_trie = gen_trie(data['diag_list'])
+        pickle_obj(my_trie, data['trie']) # saves tree
 
     results = my_trie.start_with_prefix(prefix)
 
     if not diag: # Endpoint 1
         return 'Results: %s' % results
 
-    my_hash = get_pickle(diag_pre_filepath)
+    my_hash = get_pickle(data['diag_pref'])
 
     if not my_hash:
         my_hash = {}
 
     if diag in tuple(results): # Endpoint 2
         update_hash(diag, prefix, my_hash)
-        pickle_obj(my_hash, diag_pre_filepath) # saves hash
+        pickle_obj(my_hash, data['diag_pref']) # saves hash
         return ('''Your selection %s : %s has been recorded.
          %s selected %s times.
-         The last ten prefix entries are: %s''' % (diag, prefix, diag, len(my_hash[diag]), my_hash[diag][:-11:-1]))
+         The last ten prefix entries are: %s''' % (diag, prefix, diag, \
+         len(my_hash[diag]), get_last_ten(my_hash, diag)))

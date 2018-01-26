@@ -1,0 +1,3 @@
+{  "trie" : "app/data/my_trie.p",
+  "diag_pref" : "app/data/my_diag_pref.p",
+  "diag_list" : "app/data/short-diagnoses.txt" }
