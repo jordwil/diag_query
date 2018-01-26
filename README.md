@@ -7,13 +7,16 @@ A simple web service that exposes two API endpoints.
 ## Getting Started
 ### Pip installation:
 In your terminal, run the following:
-`git clone https://github.com/jordwil/diag_query`
-`cd diag_query`
-`conda env create -f web_serv.yaml`
-`export FLASK_APP='diag_query.py'`
-`flask run`
+```
+git clone https://github.com/jordwil/diag_query
+cd diag_query
+conda env create -f web_serv.yaml
+export FLASK_APP='diag_query.py'
+flask run
+```
 
 You should see something like this:
+
 ```
 * Serving Flask app "diag_query"
 * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
